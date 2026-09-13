@@ -1,0 +1,31 @@
+name: Daily Birthday Wisher
+
+on:
+  schedule:
+    - cron: "30 3 * * *"
+
+  workflow_dispatch:
+
+jobs:
+  birthday-wisher:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run birthday wisher
+        env:
+          MY_EMAIL: ${{ secrets.MY_EMAIL }}
+          APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
+        run: |
+          python main_birthday.py
